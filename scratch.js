@@ -307,3 +307,116 @@ function sortScores(scores, highest) {
 
   return sortedScores;
 }
+
+ var half1 = []
+  var half2 = []
+  for (i = 0; i < 26; i++) {
+    half1[i] = i + 1;
+    half2[i]= i + 27;
+  }
+
+// Determine if shuffledDeck is a single riffle shuffle of half1 and half2
+function singleRiffleDetector(half1, half2, shuffledDeck) {
+  var half1Index = 0;
+  var half2Index = 0;
+  var half1Max = half1.length;
+  var half2Max = half2.length;
+
+  for (var i = 0; i < shuffledDeck.length; i++) {
+    var curr = shuffledDeck[i];
+
+    if (half1Index < half1Max && curr == half1[half1Index]) {
+      half1Index++;
+    } else if (half2Index < half2Max && curr == half2[half2Index]) {
+      half2Index++;
+    } else {
+      return false;
+    }
+  }
+
+  return true;
+
+}
+
+function linkedListNode(value) {
+  this.value = value;
+  this.next = null;
+}
+
+var a = new linkedListNode("Angel Food");
+var b = new linkedListNode("Bundt");
+var c = new linkedListNode("Cheese");
+var d = new linkedListNode("Devil's Food");
+var e = new linkedListNode("Eccles");
+
+a.next = b;
+b.next = c;
+c.next = d;
+d.next = e;
+
+// Given the head node of a singly linked list and integer k, find the kth-to-last node
+function kthToLastNode(k, headNode) {
+  // method 1: make an array by walking the list to find the last node
+  // var newArray = [];
+  // var currNode = headNode;
+  // var currIndex = 0;
+  // newArray[currIndex] = currNode;
+
+  // while (currNode.next != null) {
+  //   currNode = currNode.next;
+  //   currIndex++;
+  //   newArray[currIndex] = currNode;
+  //   console.log("newArray[" + currIndex + "] = " + newArray[currIndex]);
+  // }
+
+  // var arraySize = newArray.length;
+  // console.log("result: " + newArray[arraySize - k]);
+  // return newArray[arraySize - k];
+
+  // method 2: walk the list to find the length, then walk the list again to find node at (length - k)
+  // var length = 1;
+  // var currNode = headNode;
+
+  // while (currNode.next != null) {
+  //   length++;
+  //   console.log("length = " + length);
+  //   currNode = currNode.next;
+  // }
+
+  // currNode = headNode;
+  // var listIndex = 0;
+
+  // while (listIndex != (length - k)) {
+  //   console.log("listIndex = " + listIndex + " and currNode = " + currNode.value);
+  //   currNode = currNode.next;
+  //   listIndex++;
+  // }
+
+  // console.log("result: " + currNode.value);
+  // return currNode;
+
+  // method 3: store a K-ago node until you reach the end of the list
+  var currNode = headNode;
+  var kNode = headNode;
+  var length = 1;
+
+  while (length < k && currNode.next) {
+    currNode = currNode.next;
+    console.log("length = " + length + ", next is " + currNode.value);
+    length++;
+    if (!currNode.next && (length < k)) {
+      return console.log("error: k larger than list length");
+    }
+  }
+
+  while (currNode.next) {
+    currNode = currNode.next;
+    kNode = kNode.next;
+    console.log("curr is " + currNode.value + ", k is " + kNode.value);
+  }
+
+  console.log("result: " + kNode.value);
+  return kNode;
+}
+
+kthToLastNode(2, a);
